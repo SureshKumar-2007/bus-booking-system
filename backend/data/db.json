@@ -1,0 +1,823 @@
+{
+  "users": [],
+  "trips": [
+    {
+      "id": "1",
+      "operator": "Zingbus AC Sleeper",
+      "type": "AC Sleeper (2+1)",
+      "busNumber": "MH 01 AB 1234",
+      "rating": 4.8,
+      "reviews": 124,
+      "price": 450,
+      "currency": "INR",
+      "departure": "22:00",
+      "arrival": "06:00",
+      "duration": "08h 00m",
+      "from": "Mumbai",
+      "to": "Pune",
+      "route": "Mumbai → Lonavala → Pune",
+      "seats": 40,
+      "amenities": [
+        "WiFi",
+        "Blanket",
+        "Water Bottle"
+      ],
+      "boardingPoints": [
+        "Dadar East (22:00)",
+        "Sion Circle (22:15)",
+        "Vashi (22:45)"
+      ],
+      "droppingPoints": [
+        "Wakad (05:00)",
+        "Hinjewadi (05:30)",
+        "Swargate (06:00)"
+      ],
+      "policies": [
+        "Cancellation allowed up to 12 hours before departure.",
+        "Partial refund available.",
+        "Luggage limit strictly 15kg per passenger."
+      ],
+      "bookedSeats": [
+        "1A",
+        "1B",
+        "4C",
+        "4D",
+        "5A",
+        "7B",
+        "8C",
+        "8D",
+        "10A"
+      ],
+      "seatMap": [
+        {
+          "id": "1A",
+          "status": "booked"
+        },
+        {
+          "id": "1B",
+          "status": "booked"
+        },
+        {
+          "id": "1C",
+          "status": "available"
+        },
+        {
+          "id": "1D",
+          "status": "available"
+        },
+        {
+          "id": "2A",
+          "status": "available"
+        },
+        {
+          "id": "2B",
+          "status": "available"
+        },
+        {
+          "id": "2C",
+          "status": "available"
+        },
+        {
+          "id": "2D",
+          "status": "available"
+        },
+        {
+          "id": "3A",
+          "status": "available"
+        },
+        {
+          "id": "3B",
+          "status": "available"
+        },
+        {
+          "id": "3C",
+          "status": "available"
+        },
+        {
+          "id": "3D",
+          "status": "available"
+        },
+        {
+          "id": "4A",
+          "status": "available"
+        },
+        {
+          "id": "4B",
+          "status": "available"
+        },
+        {
+          "id": "4C",
+          "status": "booked"
+        },
+        {
+          "id": "4D",
+          "status": "booked"
+        },
+        {
+          "id": "5A",
+          "status": "booked"
+        },
+        {
+          "id": "5B",
+          "status": "available"
+        },
+        {
+          "id": "5C",
+          "status": "available"
+        },
+        {
+          "id": "5D",
+          "status": "available"
+        },
+        {
+          "id": "6A",
+          "status": "available"
+        },
+        {
+          "id": "6B",
+          "status": "available"
+        },
+        {
+          "id": "6C",
+          "status": "available"
+        },
+        {
+          "id": "6D",
+          "status": "available"
+        },
+        {
+          "id": "7A",
+          "status": "available"
+        },
+        {
+          "id": "7B",
+          "status": "booked"
+        },
+        {
+          "id": "7C",
+          "status": "available"
+        },
+        {
+          "id": "7D",
+          "status": "available"
+        },
+        {
+          "id": "8A",
+          "status": "available"
+        },
+        {
+          "id": "8B",
+          "status": "available"
+        },
+        {
+          "id": "8C",
+          "status": "booked"
+        },
+        {
+          "id": "8D",
+          "status": "booked"
+        },
+        {
+          "id": "9A",
+          "status": "available"
+        },
+        {
+          "id": "9B",
+          "status": "available"
+        },
+        {
+          "id": "9C",
+          "status": "available"
+        },
+        {
+          "id": "9D",
+          "status": "available"
+        },
+        {
+          "id": "10A",
+          "status": "booked"
+        },
+        {
+          "id": "10B",
+          "status": "available"
+        },
+        {
+          "id": "10C",
+          "status": "available"
+        },
+        {
+          "id": "10D",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "operator": "IntrCity SmartBus",
+      "type": "AC Semi-Sleeper",
+      "busNumber": "MH 14 CD 5678",
+      "rating": 4.5,
+      "reviews": 98,
+      "price": 650,
+      "currency": "INR",
+      "departure": "23:30",
+      "arrival": "07:00",
+      "duration": "07h 30m",
+      "from": "Delhi",
+      "to": "Jaipur",
+      "route": "Delhi → Expressway → Jaipur",
+      "seats": 40,
+      "amenities": [
+        "Charging Point",
+        "Reading Light"
+      ],
+      "boardingPoints": [
+        "Kashmere Gate (23:30)",
+        "Dhaula Kuan (00:00)"
+      ],
+      "droppingPoints": [
+        "Sindhi Camp (05:00)",
+        "Narayan Singh Circle (05:30)"
+      ],
+      "policies": [
+        "Cancellation allowed up to 12 hours before departure.",
+        "Meals not included.",
+        "Carry your valid ID at boarding."
+      ],
+      "bookedSeats": [
+        "2A",
+        "3B",
+        "7C",
+        "9D"
+      ],
+      "seatMap": [
+        {
+          "id": "1A",
+          "status": "available"
+        },
+        {
+          "id": "1B",
+          "status": "available"
+        },
+        {
+          "id": "1C",
+          "status": "available"
+        },
+        {
+          "id": "1D",
+          "status": "available"
+        },
+        {
+          "id": "2A",
+          "status": "booked"
+        },
+        {
+          "id": "2B",
+          "status": "available"
+        },
+        {
+          "id": "2C",
+          "status": "available"
+        },
+        {
+          "id": "2D",
+          "status": "available"
+        },
+        {
+          "id": "3A",
+          "status": "available"
+        },
+        {
+          "id": "3B",
+          "status": "booked"
+        },
+        {
+          "id": "3C",
+          "status": "available"
+        },
+        {
+          "id": "3D",
+          "status": "available"
+        },
+        {
+          "id": "4A",
+          "status": "available"
+        },
+        {
+          "id": "4B",
+          "status": "available"
+        },
+        {
+          "id": "4C",
+          "status": "available"
+        },
+        {
+          "id": "4D",
+          "status": "available"
+        },
+        {
+          "id": "5A",
+          "status": "available"
+        },
+        {
+          "id": "5B",
+          "status": "available"
+        },
+        {
+          "id": "5C",
+          "status": "available"
+        },
+        {
+          "id": "5D",
+          "status": "available"
+        },
+        {
+          "id": "6A",
+          "status": "available"
+        },
+        {
+          "id": "6B",
+          "status": "available"
+        },
+        {
+          "id": "6C",
+          "status": "available"
+        },
+        {
+          "id": "6D",
+          "status": "available"
+        },
+        {
+          "id": "7A",
+          "status": "available"
+        },
+        {
+          "id": "7B",
+          "status": "available"
+        },
+        {
+          "id": "7C",
+          "status": "booked"
+        },
+        {
+          "id": "7D",
+          "status": "available"
+        },
+        {
+          "id": "8A",
+          "status": "available"
+        },
+        {
+          "id": "8B",
+          "status": "available"
+        },
+        {
+          "id": "8C",
+          "status": "available"
+        },
+        {
+          "id": "8D",
+          "status": "available"
+        },
+        {
+          "id": "9A",
+          "status": "available"
+        },
+        {
+          "id": "9B",
+          "status": "available"
+        },
+        {
+          "id": "9C",
+          "status": "available"
+        },
+        {
+          "id": "9D",
+          "status": "booked"
+        },
+        {
+          "id": "10A",
+          "status": "available"
+        },
+        {
+          "id": "10B",
+          "status": "available"
+        },
+        {
+          "id": "10C",
+          "status": "available"
+        },
+        {
+          "id": "10D",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "operator": "VRL Travels",
+      "type": "Non-AC Sleeper",
+      "busNumber": "KA 25 EF 9012",
+      "rating": 4.2,
+      "reviews": 210,
+      "price": 850,
+      "currency": "INR",
+      "departure": "21:00",
+      "arrival": "06:30",
+      "duration": "09h 30m",
+      "from": "Bangalore",
+      "to": "Chennai",
+      "route": "Bangalore → Panvel → Chennai",
+      "seats": 40,
+      "amenities": [
+        "Pillow",
+        "Emergency Contact"
+      ],
+      "boardingPoints": [
+        "Majestic (21:00)",
+        "Madiwala (21:30)"
+      ],
+      "droppingPoints": [
+        "Koyambedu (04:00)",
+        "Guindy (04:30)"
+      ],
+      "policies": [
+        "Cancellation allowed up to 12 hours before departure.",
+        "No meal included.",
+        "Carry your passenger ID during boarding."
+      ],
+      "bookedSeats": [
+        "1D",
+        "5C",
+        "6A",
+        "10B"
+      ],
+      "seatMap": [
+        {
+          "id": "1A",
+          "status": "available"
+        },
+        {
+          "id": "1B",
+          "status": "available"
+        },
+        {
+          "id": "1C",
+          "status": "available"
+        },
+        {
+          "id": "1D",
+          "status": "booked"
+        },
+        {
+          "id": "2A",
+          "status": "available"
+        },
+        {
+          "id": "2B",
+          "status": "available"
+        },
+        {
+          "id": "2C",
+          "status": "available"
+        },
+        {
+          "id": "2D",
+          "status": "available"
+        },
+        {
+          "id": "3A",
+          "status": "available"
+        },
+        {
+          "id": "3B",
+          "status": "available"
+        },
+        {
+          "id": "3C",
+          "status": "available"
+        },
+        {
+          "id": "3D",
+          "status": "available"
+        },
+        {
+          "id": "4A",
+          "status": "available"
+        },
+        {
+          "id": "4B",
+          "status": "available"
+        },
+        {
+          "id": "4C",
+          "status": "available"
+        },
+        {
+          "id": "4D",
+          "status": "available"
+        },
+        {
+          "id": "5A",
+          "status": "available"
+        },
+        {
+          "id": "5B",
+          "status": "available"
+        },
+        {
+          "id": "5C",
+          "status": "booked"
+        },
+        {
+          "id": "5D",
+          "status": "available"
+        },
+        {
+          "id": "6A",
+          "status": "booked"
+        },
+        {
+          "id": "6B",
+          "status": "available"
+        },
+        {
+          "id": "6C",
+          "status": "available"
+        },
+        {
+          "id": "6D",
+          "status": "available"
+        },
+        {
+          "id": "7A",
+          "status": "available"
+        },
+        {
+          "id": "7B",
+          "status": "available"
+        },
+        {
+          "id": "7C",
+          "status": "available"
+        },
+        {
+          "id": "7D",
+          "status": "available"
+        },
+        {
+          "id": "8A",
+          "status": "available"
+        },
+        {
+          "id": "8B",
+          "status": "available"
+        },
+        {
+          "id": "8C",
+          "status": "available"
+        },
+        {
+          "id": "8D",
+          "status": "available"
+        },
+        {
+          "id": "9A",
+          "status": "available"
+        },
+        {
+          "id": "9B",
+          "status": "available"
+        },
+        {
+          "id": "9C",
+          "status": "available"
+        },
+        {
+          "id": "9D",
+          "status": "available"
+        },
+        {
+          "id": "10A",
+          "status": "available"
+        },
+        {
+          "id": "10B",
+          "status": "booked"
+        },
+        {
+          "id": "10C",
+          "status": "available"
+        },
+        {
+          "id": "10D",
+          "status": "available"
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "operator": "Orange Tours",
+      "type": "Volvo Multi-Axle AC",
+      "busNumber": "TS 09 GH 3456",
+      "rating": 4.9,
+      "reviews": 345,
+      "price": 1200,
+      "currency": "INR",
+      "departure": "23:45",
+      "arrival": "06:15",
+      "duration": "06h 30m",
+      "from": "Hyderabad",
+      "to": "Vijayawada",
+      "route": "Hyderabad → Vashi → Vijayawada",
+      "seats": 40,
+      "amenities": [
+        "AC",
+        "Snacks",
+        "TV",
+        "WiFi"
+      ],
+      "boardingPoints": [
+        "Ameerpet (23:45)",
+        "LB Nagar (00:15)"
+      ],
+      "droppingPoints": [
+        "Benz Circle (05:00)",
+        "RTC Bus Stand (05:15)"
+      ],
+      "policies": [
+        "Cancellation allowed up to 12 hours before departure.",
+        "Extra luggage charged separately.",
+        "Respect safety announcements."
+      ],
+      "bookedSeats": [
+        "3A",
+        "3B",
+        "8D"
+      ],
+      "seatMap": [
+        {
+          "id": "1A",
+          "status": "available"
+        },
+        {
+          "id": "1B",
+          "status": "available"
+        },
+        {
+          "id": "1C",
+          "status": "available"
+        },
+        {
+          "id": "1D",
+          "status": "available"
+        },
+        {
+          "id": "2A",
+          "status": "available"
+        },
+        {
+          "id": "2B",
+          "status": "available"
+        },
+        {
+          "id": "2C",
+          "status": "available"
+        },
+        {
+          "id": "2D",
+          "status": "available"
+        },
+        {
+          "id": "3A",
+          "status": "booked"
+        },
+        {
+          "id": "3B",
+          "status": "booked"
+        },
+        {
+          "id": "3C",
+          "status": "available"
+        },
+        {
+          "id": "3D",
+          "status": "available"
+        },
+        {
+          "id": "4A",
+          "status": "available"
+        },
+        {
+          "id": "4B",
+          "status": "available"
+        },
+        {
+          "id": "4C",
+          "status": "available"
+        },
+        {
+          "id": "4D",
+          "status": "available"
+        },
+        {
+          "id": "5A",
+          "status": "available"
+        },
+        {
+          "id": "5B",
+          "status": "available"
+        },
+        {
+          "id": "5C",
+          "status": "available"
+        },
+        {
+          "id": "5D",
+          "status": "available"
+        },
+        {
+          "id": "6A",
+          "status": "available"
+        },
+        {
+          "id": "6B",
+          "status": "available"
+        },
+        {
+          "id": "6C",
+          "status": "available"
+        },
+        {
+          "id": "6D",
+          "status": "available"
+        },
+        {
+          "id": "7A",
+          "status": "available"
+        },
+        {
+          "id": "7B",
+          "status": "available"
+        },
+        {
+          "id": "7C",
+          "status": "available"
+        },
+        {
+          "id": "7D",
+          "status": "available"
+        },
+        {
+          "id": "8A",
+          "status": "available"
+        },
+        {
+          "id": "8B",
+          "status": "available"
+        },
+        {
+          "id": "8C",
+          "status": "available"
+        },
+        {
+          "id": "8D",
+          "status": "booked"
+        },
+        {
+          "id": "9A",
+          "status": "available"
+        },
+        {
+          "id": "9B",
+          "status": "available"
+        },
+        {
+          "id": "9C",
+          "status": "available"
+        },
+        {
+          "id": "9D",
+          "status": "available"
+        },
+        {
+          "id": "10A",
+          "status": "available"
+        },
+        {
+          "id": "10B",
+          "status": "available"
+        },
+        {
+          "id": "10C",
+          "status": "available"
+        },
+        {
+          "id": "10D",
+          "status": "available"
+        }
+      ]
+    }
+  ],
+  "bookings": []
+}

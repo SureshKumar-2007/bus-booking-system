@@ -1,0 +1,266 @@
+.logs-container {
+  padding: 30px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+}
+
+.logs-header {
+  margin-bottom: 30px;
+}
+
+.logs-header h2 {
+  font-size: 28px;
+  color: #333;
+  margin: 0 0 8px 0;
+}
+
+.logs-header p {
+  color: #666;
+  margin: 0;
+  font-size: 14px;
+}
+
+.logs-loading {
+  text-align: center;
+  padding: 50px;
+  font-size: 18px;
+  color: #666;
+}
+
+.logs-filter {
+  margin-bottom: 25px;
+}
+
+.action-select {
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  background: white;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.logs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.log-item {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  gap: 20px;
+  transition: all 0.3s;
+  border-left: 4px solid #667eea;
+}
+
+.log-item:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateX(5px);
+}
+
+.log-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(102, 126, 234, 0.1);
+  flex-shrink: 0;
+}
+
+.log-details {
+  flex: 1;
+}
+
+.log-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.log-action {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.log-time {
+  font-size: 12px;
+  color: #999;
+  font-weight: 500;
+}
+
+.log-admin {
+  margin: 8px 0;
+  font-size: 13px;
+  color: #666;
+}
+
+.log-admin strong {
+  color: #333;
+}
+
+.log-description {
+  margin: 10px 0;
+  font-size: 14px;
+  color: #555;
+  padding: 10px;
+  background: #f9f9f9;
+  border-left: 3px solid #667eea;
+  border-radius: 4px;
+}
+
+.log-meta {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.meta-item {
+  font-size: 12px;
+  color: #666;
+}
+
+.meta-item strong {
+  color: #333;
+  margin-right: 5px;
+}
+
+.no-logs {
+  text-align: center;
+  padding: 50px;
+  color: #999;
+  font-size: 16px;
+  background: white;
+  border-radius: 10px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.btn-pagination {
+  padding: 8px 16px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.btn-pagination:hover:not(:disabled) {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
+.btn-pagination:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-info {
+  color: #666;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.logs-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+.stat-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-top: 4px solid #667eea;
+}
+
+.stat-card.create {
+  border-top-color: #26de81;
+}
+
+.stat-card.update {
+  border-top-color: #4facfe;
+}
+
+.stat-card.delete {
+  border-top-color: #ff6b6b;
+}
+
+.stat-label {
+  display: block;
+  font-size: 12px;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.stat-value {
+  display: block;
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Icon colors */
+.action-icon.create {
+  color: #26de81;
+}
+
+.action-icon.update {
+  color: #4facfe;
+}
+
+.action-icon.delete {
+  color: #ff6b6b;
+}
+
+.action-icon.login {
+  color: #667eea;
+}
+
+@media (max-width: 768px) {
+  .logs-container {
+    padding: 15px;
+  }
+
+  .log-item {
+    flex-direction: column;
+  }
+
+  .log-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .logs-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

@@ -1,0 +1,6 @@
+.main-content {
+  flex: 1; /* Pushes the footer down if content is short */
+  display: flex;
+  flex-direction: column;
+  padding-top: 80px; /* To account for fixed navbar height */
+}
