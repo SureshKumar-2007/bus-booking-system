@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "type": "module",
   "private": true,
-  "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+
+ "scripts": {
+    "dev": "vite",
+    "build": "build",
+    "lint": "eslint .",
+    "preview": "vite preview"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
