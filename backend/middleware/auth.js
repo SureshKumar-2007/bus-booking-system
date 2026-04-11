@@ -18,11 +18,11 @@ export const authMiddleware = (req, res, next) => {
       }
       req.user = { id: user._id, name: user.name, email: user.email };
       next();
-    }).catch((err) => {
-      console.error('User lookup error:', err);
+    }).catch(() => {
+      console.error('User lookup error');
       return res.status(401).json({ error: 'Invalid or expired token.' });
     });
-  } catch (err) {
+  } catch {
     return res.status(401).json({ error: 'Invalid or expired token.' });
   }
 };
