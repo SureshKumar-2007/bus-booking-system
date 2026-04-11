@@ -35,7 +35,8 @@ const AdminDashboard = () => {
   const handleLogout = () => {
     localStorage.removeItem('admin_token');
     localStorage.removeItem('admin_user');
-    navigate('/admin/login');
+    localStorage.removeItem('gobus_app_state');
+    window.location.href = '/';
   };
 
   if (loading) {

@@ -26,6 +26,7 @@ export const AppProvider = ({ children }) => {
 
     try {
       const parsed = JSON.parse(saved);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setUser(parsed.user || null);
       setToken(parsed.token || null);
       setSelectedTripId(parsed.selectedTripId || '');
@@ -55,6 +56,9 @@ export const AppProvider = ({ children }) => {
     setSelectedSeats([]);
     setBookingConfirmation(null);
     localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem('admin_token');
+    localStorage.removeItem('admin_user');
+    window.location.href = '/';
   };
 
   const value = useMemo(
@@ -76,6 +80,7 @@ export const AppProvider = ({ children }) => {
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAppContext = () => {
   const context = useContext(AppContext);
   if (!context) {

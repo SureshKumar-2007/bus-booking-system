@@ -1,0 +1,103 @@
+﻿
+> new-folder@0.0.0 lint
+> eslint .
+
+
+C:\Users\suresh jangid\AWT-PROJECT\frontend\src\context\AppContext.jsx
+  29:7   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  27 |     try {
+  28 |       const parsed = JSON.parse(saved);
+> 29 |       setUser(parsed.user || null);
+     |       ^^^^^^^ Avoid calling setState() directly within an effect
+  30 |       setToken(parsed.token || null);
+  31 |       setSelectedTripId(parsed.selectedTripId || '');
+  32 |       setSelectedSeats(parsed.selectedSeats || []);  react-hooks/set-state-in-effect
+  79:14  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              react-refresh/only-export-components
+
+C:\Users\suresh jangid\AWT-PROJECT\frontend\src\pages\AdminActivityLogs.jsx
+  15:6  warning  React Hook useEffect has a missing dependency: 'fetchLogs'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\suresh jangid\AWT-PROJECT\frontend\src\pages\AdminAnalytics.jsx
+  15:6  warning  React Hook useEffect has a missing dependency: 'fetchAnalytics'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\suresh jangid\AWT-PROJECT\frontend\src\pages\AdminAnnouncements.jsx
+  21:6  warning  React Hook useEffect has a missing dependency: 'fetchAnnouncements'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\suresh jangid\AWT-PROJECT\frontend\src\pages\AdminBookings.jsx
+  24:6   warning  React Hook useEffect has a missing dependency: 'fetchBookings'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  44:14  error    'err' is defined but never used                                                                                   no-unused-vars
+  54:14  error    'err' is defined but never used                                                                                   no-unused-vars
+
+C:\Users\suresh jangid\AWT-PROJECT\frontend\src\pages\AdminRefunds.jsx
+  19:6  warning  React Hook useEffect has a missing dependency: 'fetchRefunds'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\suresh jangid\AWT-PROJECT\frontend\src\pages\AdminReports.jsx
+  3:8  error  'api' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\suresh jangid\AWT-PROJECT\frontend\src\pages\AdminTrips.jsx
+  24:6   warning  React Hook useEffect has a missing dependency: 'fetchTrips'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  45:14  error    'err' is defined but never used                                                                                no-unused-vars
+
+C:\Users\suresh jangid\AWT-PROJECT\frontend\src\pages\AdminUsers.jsx
+  23:6  warning  React Hook useEffect has a missing dependency: 'fetchUsers'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\suresh jangid\AWT-PROJECT\frontend\src\pages\SearchResults.jsx
+  22:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  20 |   useEffect(() => {
+  21 |     let active = true;
+> 22 |     setLoading(true);
+     |     ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  23 |     setError('');
+  24 |
+  25 |     searchTrips({ from, to })  react-hooks/set-state-in-effect
+
+C:\Users\suresh jangid\AWT-PROJECT\frontend\src\pages\SeatSelection.jsx
+  31:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  29 |
+  30 |     let active = true;
+> 31 |     setLoading(true);
+     |     ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  32 |     setError('');
+  33 |
+  34 |     getSeats(tripId)  react-hooks/set-state-in-effect
+
+C:\Users\suresh jangid\AWT-PROJECT\frontend\src\pages\TripDetails.jsx
+  18:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  16 |   useEffect(() => {
+  17 |     let active = true;
+> 18 |     setLoading(true);
+     |     ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  19 |     setError('');
+  20 |
+  21 |     if (!id) {  react-hooks/set-state-in-effect
+
+Γ£û 16 problems (9 errors, 7 warnings)
+

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Download, FileText, Calendar } from 'lucide-react';
-import api from '../services/api';
 import './AdminReports.css';
 
 export default function AdminReports() {

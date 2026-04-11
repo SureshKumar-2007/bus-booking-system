@@ -9,7 +9,7 @@ const TOKEN_EXPIRES = '8h';
 
 const createToken = (user) => jwt.sign({ userId: user._id, email: user.email }, JWT_SECRET, { expiresIn: TOKEN_EXPIRES });
 
-const sanitizeUser = (user) => ({ id: user._id, name: user.name, email: user.email });
+const sanitizeUser = (user) => ({ id: user._id, name: user.name, email: user.email, role: user.role });
 
 router.post('/signup', async (req, res) => {
   try {

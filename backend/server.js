@@ -6,6 +6,11 @@ import tripRoutes from './routes/trips.js';
 import bookingRoutes from './routes/bookings.js';
 import adminRoutes from './routes/admin.js';
 import { initDb } from './data/db.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
@@ -34,10 +39,18 @@ app.use((err, _req, res, next) => {
   next(err);
 });
 
-app.use((req, res) => {
-  res.status(404).json({ error: 'Endpoint not found' });
+// Serve frontend static files
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// Catch-all route to serve the React app across frontend routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
+// Fallback for API routes that aren't found
+app.use('/api/*', (req, res) => {
+  res.status(404).json({ error: 'Endpoint not found' });
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

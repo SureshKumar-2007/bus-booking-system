@@ -21,6 +21,7 @@ const AdminBookings = () => {
       return;
     }
     fetchBookings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [adminToken, currentPage, search, statusFilter, navigate]);
 
   const fetchBookings = async () => {
@@ -41,7 +42,7 @@ const AdminBookings = () => {
     try {
       await api.updateAdminBookingStatus(bookingId, { status: newStatus });
       fetchBookings();
-    } catch (err) {
+    } catch {
       setError('Failed to update booking status');
     }
   };
@@ -51,7 +52,7 @@ const AdminBookings = () => {
     try {
       await api.deleteAdminBooking(bookingId);
       fetchBookings();
-    } catch (err) {
+    } catch {
       setError('Failed to delete booking');
     }
   };

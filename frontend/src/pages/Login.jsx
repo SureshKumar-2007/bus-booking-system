@@ -35,7 +35,14 @@ const Login = () => {
 
       const response = isSignUp ? await signup(payload) : await login(payload);
       storeLogin(response.user, response.token);
-      navigate('/');
+      
+      if (response.user?.role === 'admin') {
+        localStorage.setItem('admin_token', response.token);
+        localStorage.setItem('admin_user', JSON.stringify(response.user));
+        navigate('/admin/dashboard');
+      } else {
+        navigate('/');
+      }
     } catch (err) {
       setError(err.message || 'Unable to authenticate.');
     } finally {

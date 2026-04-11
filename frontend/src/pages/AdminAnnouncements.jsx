@@ -18,6 +18,7 @@ export default function AdminAnnouncements() {
 
   useEffect(() => {
     fetchAnnouncements();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   const fetchAnnouncements = async () => {

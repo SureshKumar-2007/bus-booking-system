@@ -30,6 +30,9 @@ const Navbar = () => {
         <nav className="navbar-links desktop-only">
           <Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}>Home</Link>
           <Link to="/about" className={`nav-link ${location.pathname === '/about' ? 'active' : ''}`}>About Us</Link>
+          {user?.role === 'admin' && (
+            <Link to="/admin/dashboard" className={`nav-link ${location.pathname.startsWith('/admin') ? 'active' : ''}`}>Admin Panel</Link>
+          )}
         </nav>
 
         <div className="navbar-actions desktop-only">
@@ -57,6 +60,9 @@ const Navbar = () => {
         <div className="mobile-menu animate-fade-in">
           <Link to="/" className="mobile-link" onClick={() => setIsMenuOpen(false)}>Home</Link>
           <Link to="/about" className="mobile-link" onClick={() => setIsMenuOpen(false)}>About Us</Link>
+          {user?.role === 'admin' && (
+            <Link to="/admin/dashboard" className="mobile-link" onClick={() => setIsMenuOpen(false)}>Admin Panel</Link>
+          )}
           {user ? (
             <button className="mobile-link btn btn-outline" onClick={() => { logout(); setIsMenuOpen(false); }}>Logout</button>
           ) : (

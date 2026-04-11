@@ -21,6 +21,7 @@ const AdminTrips = () => {
       return;
     }
     fetchTrips();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [adminToken, currentPage, search, navigate]);
 
   const fetchTrips = async () => {
@@ -42,7 +43,7 @@ const AdminTrips = () => {
     try {
       await api.deleteAdminTrip(tripId);
       fetchTrips();
-    } catch (err) {
+    } catch {
       setError('Failed to delete trip');
     }
   };

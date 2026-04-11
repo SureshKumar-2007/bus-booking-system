@@ -20,6 +20,7 @@ const AdminUsers = () => {
       return;
     }
     fetchUsers();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [adminToken, currentPage, search, navigate]);
 
   const fetchUsers = async () => {
