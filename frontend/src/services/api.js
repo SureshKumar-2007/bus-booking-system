@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api';
+const API_BASE = '/api';
 
 const request = async (path, { method = 'GET', body, token } = {}) => {
   const headers = { 'Content-Type': 'application/json' };
@@ -22,7 +22,8 @@ const request = async (path, { method = 'GET', body, token } = {}) => {
   } else {
     // Handle non-JSON responses (like HTML 404 pages from Vercel)
     if (!response.ok) {
-      throw new Error(`API Error: ${response.status} ${response.statusText}. Endpoint might be missing.`);
+      const text = await response.text();
+      throw new Error(`API Error: ${response.status} at ${path}. Endpoint might be missing. URL: ${API_BASE}${path}. Response snippet: ${text.substring(0, 50)}`);
     }
     // Fallback if it's successful but not JSON
     const text = await response.text();
