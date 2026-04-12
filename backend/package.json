@@ -7,7 +7,7 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "lint": "eslint .",
-    "postinstall": "cd .. && npm run build"
+    "postinstall": "if [ \"$NODE_ENV\" != \"production\" ] || [ ! -d \"../frontend/dist\" ]; then cd .. && npm run build; fi"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

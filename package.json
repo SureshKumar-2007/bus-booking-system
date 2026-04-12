@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "npm install && cd frontend && npm install && npm run build",
+    "build": "npm install && cd frontend && npm install --include=dev && npm run build",
     "start": "node backend/server.js",
     "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\""
   },
