@@ -46,11 +46,12 @@ app.use('/api/*', (req, res) => {
 });
 
 // Serve frontend static files
-app.use(express.static(path.join(__dirname, 'dist')));
+const frontendDistPath = path.join(__dirname, '../frontend/dist');
+app.use(express.static(frontendDistPath));
 
 // Catch-all route to serve the React app across frontend routes
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  res.sendFile(path.join(frontendDistPath, 'index.html'));
 });
 
 // Start server if not running on Vercel serverless functions
