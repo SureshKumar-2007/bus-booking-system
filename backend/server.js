@@ -28,10 +28,10 @@ app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-app.use('/api/auth', authRoutes);
-app.use('/api', tripRoutes);
-app.use('/api/bookings', bookingRoutes);
-app.use('/api/admin', adminRoutes);
+app.use(['/api/auth', '/auth'], authRoutes);
+app.use(['/api/bookings', '/bookings'], bookingRoutes);
+app.use(['/api/admin', '/admin'], adminRoutes);
+app.use(['/api', '/'], tripRoutes);
 
 // Error handling middleware for JSON parsing errors
 app.use((err, _req, res, next) => {
