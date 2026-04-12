@@ -16,22 +16,29 @@ const adminAuthMiddleware = async (req, res, next) => {
   }
 
   const token = authHeader.replace('Bearer ', '');
+  let payload;
   try {
-    const payload = jwt.verify(token, JWT_SECRET);
+    payload = jwt.verify(token, JWT_SECRET);
+  } catch (err) {
+    // This catches malformed tokens, expired tokens, etc.
+    return res.status(401).json({ error: 'Invalid or expired token.' });
+  }
+
+  try {
     const user = await User.findById(payload.userId);
     
     if (!user) {
-      return res.status(401).json({ error: 'Invalid token.' });
+      return res.status(401).json({ error: 'Invalid token. User not found.' });
     }
 
     if (user.role !== 'admin') {
       return res.status(403).json({ error: 'Access denied. Admin role required.' });
     }
-
     req.user = { id: user._id, name: user.name, email: user.email, role: user.role };
     next();
-  } catch {
-    return res.status(401).json({ error: 'Invalid or expired token.' });
+  } catch (dbError) {
+    console.error('Admin auth DB error:', dbError);
+    return res.status(500).json({ error: 'Internal server error during authentication.' });
   }
 };
 
@@ -329,10 +336,16 @@ router.get('/bookings', adminAuthMiddleware, async (req, res) => {
     const filter = {};
     
     if (search) {
-      filter.$or = [
-        { 'userId.email': { $regex: search, $options: 'i' } },
-        { 'userId.name': { $regex: search, $options: 'i' } }
-      ];
+      // To search by passenger name or email, we first need to find the users
+      // and then use their IDs to filter the bookings.
+      const users = await User.find({
+        $or: [
+          { name: { $regex: search, $options: 'i' } },
+          { email: { $regex: search, $options: 'i' } },
+        ],
+      }).select('_id').lean();
+      const userIds = users.map(u => u._id);
+      filter.userId = { $in: userIds };
     }
 
     if (status) {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { api } from '../services/api';
 import { ArrowLeft, Search, Plus, Trash2 } from 'lucide-react';
@@ -15,16 +15,7 @@ const AdminTrips = () => {
   const navigate = useNavigate();
   const adminToken = localStorage.getItem('admin_token');
 
-  useEffect(() => {
-    if (!adminToken) {
-      navigate('/admin/login');
-      return;
-    }
-    fetchTrips();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [adminToken, currentPage, search, navigate]);
-
-  const fetchTrips = async () => {
+  const fetchTrips = useCallback(async () => {
     try {
       setLoading(true);
       const data = await api.getAdminTrips({ page: currentPage, search });
@@ -36,7 +27,15 @@ const AdminTrips = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentPage, search]);
+
+  useEffect(() => {
+    if (!adminToken) {
+      navigate('/admin/login');
+      return;
+    }
+    fetchTrips();
+  }, [adminToken, navigate, fetchTrips]);
 
   const handleDelete = async (tripId) => {
     if (!window.confirm('Delete this trip?')) return;
