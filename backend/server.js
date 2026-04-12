@@ -55,36 +55,63 @@ app.use('/api', apiRouter);
 // 2. At root for flexible/prefixed calls (like /auth, /search, etc.)
 app.use(apiRouter);
 
-// Error handling middleware for JSON parsing errors
-app.use((err, _req, res, next) => {
-  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
-    return res.status(400).json({ error: 'Invalid JSON in request body' });
+// ---------------------------------------------------------
+// API ROUTES CATCH-ALL
+// ---------------------------------------------------------
+
+// Unified 404 handler for any path that reaches here
+app.use((req, res) => {
+  const isApi = req.url.startsWith('/api') || 
+                req.url.startsWith('/auth') || 
+                req.url.startsWith('/bookings') || 
+                req.url.startsWith('/admin') ||
+                req.url.startsWith('/trips');
+  
+  if (isApi) {
+    return res.status(404).json({ 
+      error: 'API Endpoint not found', 
+      path: req.originalUrl,
+      method: req.method 
+    });
   }
-  next(err);
+  
+  // If not an API path and we are NOT on Vercel, it might be a static file request
+  if (!process.env.VERCEL) {
+    // Falls through to static middleware if it existed
+    return res.status(404).send('Page not found');
+  }
+  
+  // On Vercel, vercel.json handles non-API routes, so if we are here, it's a 404
+  res.status(404).json({ error: 'Not found' });
 });
 
-// Catch-all 404 for API routes
-app.use('/api/*', (req, res) => {
-  res.status(404).json({ 
-    error: 'API Endpoint not found', 
-    path: req.originalUrl,
-    method: req.method 
+// Global Error Handler (500)
+app.use((err, req, res, _next) => {
+  console.error(`[INTERNAL ERROR] ${err.stack}`);
+  res.status(500).json({
+    error: 'Internal Server Error',
+    message: process.env.NODE_ENV === 'production' ? 'An unexpected error occurred' : err.message
   });
 });
 
-// Serve frontend static files
-const frontendDistPath = path.join(__dirname, '../frontend/dist');
-if (fs.existsSync(frontendDistPath)) {
-  app.use(express.static(frontendDistPath));
-} else {
-  console.warn('WARNING: Frontend dist directory not found at:', frontendDistPath);
-  console.warn('API will work, but frontend routes will return 404.');
+// ---------------------------------------------------------
+// LOCAL DEVELOPMENT ONLY: STATIC SERVING
+// ---------------------------------------------------------
+if (!process.env.VERCEL) {
+  const frontendDistPath = path.join(__dirname, '../frontend/dist');
+  
+  if (fs.existsSync(frontendDistPath)) {
+    app.use(express.static(frontendDistPath));
+    
+    // Catch-all route to serve the React app across frontend routes
+    app.get('*', (req, res) => {
+      res.sendFile(path.join(frontendDistPath, 'index.html'));
+    });
+  } else {
+    console.warn('WARNING: Frontend dist directory not found at:', frontendDistPath);
+    console.warn('Local frontend serving is disabled.');
+  }
 }
-
-// Catch-all route to serve the React app across frontend routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(frontendDistPath, 'index.html'));
-});
 
 // Start server if not running on Vercel serverless functions
 if (!process.env.VERCEL) {
