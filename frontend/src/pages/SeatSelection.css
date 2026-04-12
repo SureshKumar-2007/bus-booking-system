@@ -212,5 +212,42 @@
 @media (max-width: 992px) {
   .selection-layout {
     grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .selection-summary-card {
+    position: static;
+    order: 2; /* Put summary below the selection grid */
+  }
+
+  .bus-layout-card {
+    order: 1;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .bus-chassis {
+    padding: 1.5rem 1rem;
+    max-width: 100%;
+  }
+  
+  .seat-pair {
+    gap: 0.5rem;
+  }
+  
+  .seat {
+    width: 48px;
+    height: 54px;
+  }
+  
+  .aisle {
+    width: 20px;
+  }
+  
+  .seat-legend {
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }

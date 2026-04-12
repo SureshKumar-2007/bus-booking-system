@@ -230,32 +230,58 @@
 }
 
 @media (max-width: 768px) {
+  .admin-dashboard {
+    padding: 15px 10px;
+  }
+
   .admin-header {
     flex-direction: column;
     gap: 15px;
     text-align: center;
+    padding: 15px;
   }
 
   .admin-nav {
-    padding: 10px 15px;
+    padding: 10px;
+    gap: 8px;
+    justify-content: center;
   }
 
   .nav-item {
-    padding: 8px 15px;
-    font-size: 14px;
+    padding: 8px 12px;
+    font-size: 13px;
+    flex: 1 1 auto;
+    text-align: center;
   }
 
   .stats-section {
     grid-template-columns: 1fr;
+    gap: 15px;
   }
 
   .recent-section {
     padding: 15px;
   }
 
+  .bookings-table {
+    margin: 0 -15px;
+    padding: 0 15px;
+  }
+
   .bookings-table th,
   .bookings-table td {
-    padding: 10px;
-    font-size: 12px;
+    padding: 12px 10px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-left h1 {
+    font-size: 22px;
+  }
+  
+  .stat-card {
+    padding: 15px;
   }
 }

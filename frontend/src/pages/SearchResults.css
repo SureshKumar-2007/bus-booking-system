@@ -210,27 +210,92 @@
   .results-layout {
     grid-template-columns: 1fr;
   }
+  
+  /* Mobile Filter Modal */
   .filters-sidebar {
-    display: none;
+    position: fixed;
+    top: 70px;
+    left: -100%;
+    width: 100%;
+    height: calc(100vh - 70px);
+    z-index: 1001;
+    transition: var(--transition);
+    border-radius: 0;
+    max-width: 350px;
+    box-shadow: 10px 0 30px rgba(0,0,0,0.1);
+  }
+
+  .filters-sidebar.active {
+    left: 0;
+  }
+
+  .filter-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+  }
+
+  .filter-header-mobile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .filter-close-btn {
+    padding: 0.5rem;
+    color: var(--text-muted);
+  }
+}
+
+@media (max-width: 768px) {
+  .summary-container {
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+  }
+  .route-details h2 {
+    justify-content: center;
+  }
+  .route-details p {
+    justify-content: center;
   }
 }
 
 @media (max-width: 640px) {
+  .bus-card {
+    padding: 1rem;
+  }
   .bus-timing-row {
     flex-direction: column;
     gap: 1rem;
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
+  }
+  .time {
+    font-size: 1.25rem;
   }
   .right-align {
-    text-align: left;
+    text-align: center;
   }
   .duration-block {
     width: 100%;
-    margin-left: 0.5rem;
-    border-left: 2px dashed var(--border);
-    padding-left: 1rem;
+    justify-content: center;
   }
   .duration-line {
-    display: none;
+    width: 20px;
+  }
+  .bus-card-footer {
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: stretch;
+  }
+  .price-info {
+    align-items: center;
   }
 }

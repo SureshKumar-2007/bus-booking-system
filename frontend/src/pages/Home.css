@@ -91,6 +91,12 @@
 }
 
 @media (max-width: 992px) {
+  .hero-section {
+    height: 500px;
+  }
+  .hero-title {
+    font-size: 2.75rem;
+  }
   .search-grid {
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
@@ -101,8 +107,19 @@
 }
 
 @media (max-width: 640px) {
+  .hero-section {
+    height: auto;
+    padding: 3rem 0;
+  }
   .hero-title {
-    font-size: 2.5rem;
+    font-size: 2.125rem;
+  }
+  .hero-subtitle {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+  .search-widget {
+    padding: 1.25rem;
   }
   .search-grid {
     grid-template-columns: 1fr;

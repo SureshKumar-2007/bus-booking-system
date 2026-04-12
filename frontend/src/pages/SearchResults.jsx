@@ -12,6 +12,7 @@ const SearchResults = () => {
   const [buses, setBuses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
 
   const from = searchParams.get('from') || 'Mumbai';
   const to = searchParams.get('to') || 'Pune';
@@ -19,7 +20,6 @@ const SearchResults = () => {
 
   useEffect(() => {
     let active = true;
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
     setError('');
 
@@ -50,13 +50,25 @@ const SearchResults = () => {
             <h2>{from} <ChevronRight size={20} className="text-secondary" /> {to}</h2>
             <p className="text-muted"><Clock size={14} /> {date} • {loading ? 'Loading...' : `${buses.length} Buses Found`}</p>
           </div>
-          <Link to="/" className="btn btn-outline"><Filter size={18} /> Modify Search</Link>
+          <div className="summary-actions">
+            <button className="btn btn-outline mobile-only" onClick={() => setShowFilters(true)} style={{ marginRight: '1rem' }}>
+              <Filter size={18} /> Filters
+            </button>
+            <Link to="/" className="btn btn-primary">Modify Search</Link>
+          </div>
         </div>
       </div>
 
       <div className="container results-layout">
-        <div className="filters-sidebar">
-          <h3>Filters</h3>
+        {/* Mobile Overlay */}
+        {showFilters && <div className="filter-overlay animate-fade-in" onClick={() => setShowFilters(false)}></div>}
+
+        <div className={`filters-sidebar ${showFilters ? 'active' : ''}`}>
+          <div className="filter-header-mobile mobile-only">
+            <h3>Filters</h3>
+            <button className="filter-close-btn" onClick={() => setShowFilters(false)}><X size={24} /></button>
+          </div>
+          <h3 className="desktop-only">Filters</h3>
 
           <div className="filter-group">
             <h4 className="filter-title">Bus Type</h4>
@@ -73,6 +85,8 @@ const SearchResults = () => {
             <label className="checkbox-label"><input type="checkbox" /> 12 PM to 6 PM</label>
             <label className="checkbox-label"><input type="checkbox" /> After 6 PM</label>
           </div>
+          
+          <button className="btn btn-primary mobile-only" style={{ width: '100%' }} onClick={() => setShowFilters(false)}>Apply Filters</button>
         </div>
 
         <div className="bus-list">
