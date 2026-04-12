@@ -22,16 +22,38 @@ const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
 app.use(cors({ origin: FRONTEND_URL, credentials: true }));
 app.use(express.json());
 
-await initDb();
-
-app.get('/api/health', (_req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+// Request logging middleware
+app.use((req, _res, next) => {
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] ${req.method} ${req.url}`);
+  next();
 });
 
-app.use(['/api/auth', '/auth'], authRoutes);
-app.use(['/api/bookings', '/bookings'], bookingRoutes);
-app.use(['/api/admin', '/admin'], adminRoutes);
-app.use(['/api', '/'], tripRoutes);
+// Initialize Database
+await initDb();
+
+// Create a centralized API router for flexible path prefixes
+const apiRouter = express.Router();
+
+apiRouter.get('/health', (_req, res) => {
+  res.json({ 
+    status: 'ok', 
+    timestamp: new Date().toISOString(), 
+    env: process.env.VERCEL ? 'vercel' : 'local',
+    node_version: process.version
+  });
+});
+
+apiRouter.use('/auth', authRoutes);
+apiRouter.use('/bookings', bookingRoutes);
+apiRouter.use('/admin', adminRoutes);
+apiRouter.use('/', tripRoutes);
+
+// Mount the API router
+// 1. At /api for standard calls
+app.use('/api', apiRouter);
+// 2. At root for flexible/prefixed calls (like /auth, /search, etc.)
+app.use(apiRouter);
 
 // Error handling middleware for JSON parsing errors
 app.use((err, _req, res, next) => {
@@ -41,9 +63,13 @@ app.use((err, _req, res, next) => {
   next(err);
 });
 
-// Fallback for API routes that aren't found
+// Catch-all 404 for API routes
 app.use('/api/*', (req, res) => {
-  res.status(404).json({ error: 'Endpoint not found' });
+  res.status(404).json({ 
+    error: 'API Endpoint not found', 
+    path: req.originalUrl,
+    method: req.method 
+  });
 });
 
 // Serve frontend static files
