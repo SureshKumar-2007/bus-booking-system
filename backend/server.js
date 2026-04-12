@@ -53,8 +53,9 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-if (process.env.NODE_ENV !== 'production' || process.env.RUN_LOCAL) {
-  app.listen(PORT, () => {
+// Start server if not running on Vercel serverless functions
+if (!process.env.VERCEL) {
+  app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}`);
   });
 }
