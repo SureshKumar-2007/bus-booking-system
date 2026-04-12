@@ -1,4 +1,4 @@
-import { Clock, Star, Filter, ChevronRight } from 'lucide-react';
+import { Clock, Star, Filter, ChevronRight, X } from 'lucide-react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { searchTrips } from '../services/api.js';
