@@ -12,12 +12,22 @@ const request = async (path, { method = 'GET', body, token } = {}) => {
     body: body ? JSON.stringify(body) : undefined,
   });
 
-  const payload = await response.json();
-  if (!response.ok) {
-    throw new Error(payload.error || 'Unable to complete request');
+  const contentType = response.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+    const payload = await response.json();
+    if (!response.ok) {
+      throw new Error(payload.error || 'Unable to complete request');
+    }
+    return payload;
+  } else {
+    // Handle non-JSON responses (like HTML 404 pages from Vercel)
+    if (!response.ok) {
+      throw new Error(`API Error: ${response.status} ${response.statusText}. Endpoint might be missing.`);
+    }
+    // Fallback if it's successful but not JSON
+    const text = await response.text();
+    return text;
   }
-
-  return payload;
 };
 
 export const api = {
