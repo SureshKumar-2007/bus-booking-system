@@ -8,6 +8,7 @@ import adminRoutes from './routes/admin.js';
 import { initDb } from './data/db.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fs from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -47,7 +48,12 @@ app.use('/api/*', (req, res) => {
 
 // Serve frontend static files
 const frontendDistPath = path.join(__dirname, '../frontend/dist');
-app.use(express.static(frontendDistPath));
+if (fs.existsSync(frontendDistPath)) {
+  app.use(express.static(frontendDistPath));
+} else {
+  console.warn('WARNING: Frontend dist directory not found at:', frontendDistPath);
+  console.warn('API will work, but frontend routes will return 404.');
+}
 
 // Catch-all route to serve the React app across frontend routes
 app.get('*', (req, res) => {

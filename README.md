@@ -166,6 +166,26 @@ For detailed endpoint information, see:
 - CORS is configured for local development
 - Both servers must be running for full functionality
 
+
+## Deployment
+
+### Vercel (Automatic)
+The project is configured for Vercel with `vercel.json` and the `api/` directory.
+
+### Render
+To deploy on Render, follow these steps in your Dashboard:
+
+1.  **Connect your GitHub Repository**.
+2.  **Environment Settings**:
+    - **Runtime**: `Node`
+    - **Build Command**: `npm run build`
+    - **Start Command**: `npm start`
+    - **Root Directory**: `.` (Repository root)
+3.  **Environment Variables**:
+    - `MONGO_URI`: Your MongoDB connection string.
+    - `JWT_SECRET`: A secure string for tokens.
+    - `FRONTEND_URL`: Your deployed frontend URL (for CORS).
+
 ## Getting Help
 
 Refer to individual README files:
