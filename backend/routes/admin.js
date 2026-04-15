@@ -1,7 +1,7 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { User, Trip, Booking, Announcement, ActivityLog, Refund, normalizeEmail } from '../data/db.js';
+import { User, Trip, Bus, Booking, Announcement, ActivityLog, Refund, normalizeEmail } from '../data/db.js';
 import mongoose from 'mongoose';
 
 const router = express.Router();
@@ -102,6 +102,7 @@ router.get('/dashboard', adminAuthMiddleware, async (req, res) => {
     const totalUsers = await User.countDocuments({ role: 'user' });
     const totalTrips = await Trip.countDocuments();
     const totalBookings = await Booking.countDocuments();
+    const totalBuses = await Bus.countDocuments();
     
     const bookingsData = await Booking.aggregate([
       { $group: { _id: null, totalRevenue: { $sum: '$totalFare' } } }
@@ -120,6 +121,7 @@ router.get('/dashboard', adminAuthMiddleware, async (req, res) => {
         totalUsers,
         totalTrips,
         totalBookings,
+        totalBuses,
         totalRevenue: totalRevenue.toFixed(2)
       },
       recentBookings: recentBookings.map(booking => ({
@@ -278,22 +280,39 @@ router.post('/trips', adminAuthMiddleware, async (req, res) => {
 // Update Trip
 router.put('/trips/:id', adminAuthMiddleware, async (req, res) => {
   try {
-    const { price, amenities } = req.body;
+    const updateData = req.body;
     const tripId = req.params.id;
 
     if (!mongoose.Types.ObjectId.isValid(tripId)) {
       return res.status(400).json({ error: 'Invalid trip ID' });
     }
 
+    // If times are updated, recalculate duration
+    if (updateData.departureTime && updateData.arrivalTime) {
+      updateData.departure = new Date(updateData.departureTime).toLocaleTimeString('en-US', { hour12: true });
+      updateData.arrival = new Date(updateData.arrivalTime).toLocaleTimeString('en-US', { hour12: true });
+      updateData.duration = calculateDuration(new Date(updateData.departureTime), new Date(updateData.arrivalTime));
+    }
+
     const trip = await Trip.findByIdAndUpdate(
       tripId,
-      { $set: { price, amenities } },
+      { $set: updateData },
       { new: true }
     );
 
     if (!trip) {
       return res.status(404).json({ error: 'Trip not found' });
     }
+
+    await logActivity(
+      req.user.id,
+      req.user.email,
+      'UPDATE_TRIP',
+      'Trip',
+      trip._id,
+      updateData,
+      `Trip updated: ${trip.busNumber} (${trip.from} → ${trip.to})`
+    );
 
     return res.json({ trip });
   } catch (error) {
@@ -798,6 +817,181 @@ router.post('/announcements', adminAuthMiddleware, async (req, res) => {
 
     if (!title || !message) {
       return res.status(400).json({ error: 'Title and message are required' });
+    }
+
+    const announcement = await Announcement.create({
+      title,
+      message,
+      type,
+      expiresAt: expiresAt ? new Date(expiresAt) : null,
+      createdBy: req.user.id
+    });
+
+    await logActivity(
+      req.user.id,
+      req.user.email,
+      'CREATE_ANNOUNCEMENT',
+      'Announcement',
+      announcement._id,
+      { title, type },
+      `New announcement posted: ${title}`
+    );
+
+    return res.status(201).json({ announcement });
+  } catch (error) {
+    console.error('Announcement creation error:', error);
+    return res.status(500).json({ error: 'Failed to create announcement' });
+  }
+});
+
+// ============ FEATURE 6: BUS MANAGEMENT ============
+// Get all buses
+router.get('/buses', adminAuthMiddleware, async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const search = req.query.search || '';
+    const limit = 10;
+    const skip = (page - 1) * limit;
+
+    const filter = {};
+    if (search) {
+      filter.$or = [
+        { busNumber: { $regex: search, $options: 'i' } },
+        { operator: { $regex: search, $options: 'i' } }
+      ];
+    }
+
+    const buses = await Bus.find(filter)
+      .skip(skip)
+      .limit(limit)
+      .sort({ createdAt: -1 })
+      .lean();
+
+    const total = await Bus.countDocuments(filter);
+
+    return res.json({
+      buses,
+      pagination: {
+        total,
+        pages: Math.ceil(total / limit),
+        currentPage: page
+      }
+    });
+  } catch (error) {
+    console.error('Buses fetch error:', error);
+    return res.status(500).json({ error: 'Failed to fetch buses' });
+  }
+});
+
+// Create Bus
+router.post('/buses', adminAuthMiddleware, async (req, res) => {
+  try {
+    const { busNumber, operator, type, capacity, amenities } = req.body;
+
+    if (!busNumber || !operator || !type || !capacity) {
+      return res.status(400).json({ error: 'All fields are required.' });
+    }
+
+    const existingBus = await Bus.findOne({ busNumber });
+    if (existingBus) {
+      return res.status(400).json({ error: 'Bus with this number already exists.' });
+    }
+
+    const newBus = await Bus.create({
+      busNumber,
+      operator,
+      type,
+      capacity,
+      amenities: amenities || []
+    });
+
+    await logActivity(
+      req.user.id,
+      req.user.email,
+      'CREATE_BUS',
+      'Bus',
+      newBus._id,
+      newBus,
+      `New bus registered: ${busNumber}`
+    );
+
+    return res.status(201).json({ bus: newBus });
+  } catch (error) {
+    console.error('Bus creation error:', error);
+    return res.status(500).json({ error: 'Failed to register bus' });
+  }
+});
+
+// Update Bus
+router.put('/buses/:id', adminAuthMiddleware, async (req, res) => {
+  try {
+    const { busNumber, operator, type, capacity, amenities, isActive } = req.body;
+    const busId = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(busId)) {
+      return res.status(400).json({ error: 'Invalid bus ID' });
+    }
+
+    const bus = await Bus.findByIdAndUpdate(
+      busId,
+      { $set: { busNumber, operator, type, capacity, amenities, isActive } },
+      { new: true }
+    );
+
+    if (!bus) {
+      return res.status(404).json({ error: 'Bus not found' });
+    }
+
+    await logActivity(
+      req.user.id,
+      req.user.email,
+      'UPDATE_BUS',
+      'Bus',
+      bus._id,
+      { busNumber, operator, type, capacity, amenities, isActive },
+      `Bus updated: ${busNumber}`
+    );
+
+    return res.json({ bus });
+  } catch (error) {
+    console.error('Bus update error:', error);
+    return res.status(500).json({ error: 'Failed to update bus' });
+  }
+});
+
+// Delete Bus
+router.delete('/buses/:id', adminAuthMiddleware, async (req, res) => {
+  try {
+    const busId = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(busId)) {
+      return res.status(400).json({ error: 'Invalid bus ID' });
+    }
+
+    const bus = await Bus.findByIdAndDelete(busId);
+
+    if (!bus) {
+      return res.status(404).json({ error: 'Bus not found' });
+    }
+
+    await logActivity(
+      req.user.id,
+      req.user.email,
+      'DELETE_BUS',
+      'Bus',
+      bus._id,
+      null,
+      `Bus decommissioned: ${bus.busNumber}`
+    );
+
+    return res.json({ message: 'Bus deleted successfully' });
+  } catch (error) {
+    console.error('Bus delete error:', error);
+    return res.status(500).json({ error: 'Failed to delete bus' });
+  }
+});
+
+export default router;
     }
 
     const announcement = await Announcement.create({

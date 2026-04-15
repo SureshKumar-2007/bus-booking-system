@@ -80,6 +80,24 @@ export const api = {
     return request(`/admin/bookings/${encodeURIComponent(bookingId)}`, { method: 'DELETE', token: adminToken });
   },
   
+  // Feature 6: Bus Management
+  getAdminBuses: ({ page = 1, search = '' }, token) => {
+    const adminToken = token || localStorage.getItem('admin_token');
+    return request(`/admin/buses?page=${page}&search=${encodeURIComponent(search)}`, { token: adminToken });
+  },
+  createAdminBus: (data, token) => {
+    const adminToken = token || localStorage.getItem('admin_token');
+    return request('/admin/buses', { method: 'POST', body: data, token: adminToken });
+  },
+  updateAdminBus: (busId, data, token) => {
+    const adminToken = token || localStorage.getItem('admin_token');
+    return request(`/admin/buses/${encodeURIComponent(busId)}`, { method: 'PUT', body: data, token: adminToken });
+  },
+  deleteAdminBus: (busId, token) => {
+    const adminToken = token || localStorage.getItem('admin_token');
+    return request(`/admin/buses/${encodeURIComponent(busId)}`, { method: 'DELETE', token: adminToken });
+  },
+  
   // Feature 1: Advanced Analytics
   getAdminAnalytics: (query, token) => {
     const adminToken = token || localStorage.getItem('admin_token');

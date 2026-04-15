@@ -19,6 +19,7 @@ import AdminRefunds from './pages/AdminRefunds'
 import AdminReports from './pages/AdminReports'
 import AdminActivityLogs from './pages/AdminActivityLogs'
 import AdminAnnouncements from './pages/AdminAnnouncements'
+import AdminBuses from './pages/AdminBuses'
 import './App.css'
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
           <Route path="/admin/reports" element={<AdminReports />} />
           <Route path="/admin/activity-logs" element={<AdminActivityLogs />} />
           <Route path="/admin/announcements" element={<AdminAnnouncements />} />
+          <Route path="/admin/buses" element={<AdminBuses />} />
         </Routes>
       </main>
       {!isAdminRoute && <Footer />}

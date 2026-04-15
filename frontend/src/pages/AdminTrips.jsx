@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { api } from '../services/api';
-import { ArrowLeft, Search, Plus, Trash2 } from 'lucide-react';
+import { ArrowLeft, Search, Plus, Trash2, Edit2 } from 'lucide-react';
 import './AdminTrips.css';
 
 const AdminTrips = () => {
@@ -12,6 +12,7 @@ const AdminTrips = () => {
   const [pagination, setPagination] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [editingTrip, setEditingTrip] = useState(null);
   const navigate = useNavigate();
   const adminToken = localStorage.getItem('admin_token');
 
@@ -95,7 +96,7 @@ const AdminTrips = () => {
                 <th>Departure</th>
                 <th>Price</th>
                 <th>Seats</th>
-                <th>Action</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -107,12 +108,20 @@ const AdminTrips = () => {
                   <td>₹{trip.price}</td>
                   <td>{trip.availableSeats}/{trip.seats}</td>
                   <td>
-                    <button
-                      className="delete-btn"
-                      onClick={() => handleDelete(trip._id)}
-                    >
-                      <Trash2 size={16} />
-                    </button>
+                    <div className="action-buttons">
+                        <button
+                            className="edit-btn"
+                            onClick={() => setEditingTrip(trip)}
+                        >
+                            <Edit2 size={16} />
+                        </button>
+                        <button
+                            className="delete-btn"
+                            onClick={() => handleDelete(trip._id)}
+                        >
+                            <Trash2 size={16} />
+                        </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -149,11 +158,16 @@ const AdminTrips = () => {
         </div>
       )}
 
-      {showAddModal && (
-        <AddTripModal
-          onClose={() => setShowAddModal(false)}
+      {(showAddModal || editingTrip) && (
+        <TripModal
+          trip={editingTrip}
+          onClose={() => {
+            setShowAddModal(false);
+            setEditingTrip(null);
+          }}
           onSuccess={() => {
             setShowAddModal(false);
+            setEditingTrip(null);
             fetchTrips();
           }}
         />
@@ -162,15 +176,15 @@ const AdminTrips = () => {
   );
 };
 
-const AddTripModal = ({ onClose, onSuccess }) => {
+const TripModal = ({ trip, onClose, onSuccess }) => {
   const [formData, setFormData] = useState({
-    busNumber: '',
-    from: '',
-    to: '',
-    departureTime: '',
-    arrivalTime: '',
-    price: '',
-    totalSeats: 50
+    busNumber: trip?.busNumber || '',
+    from: trip?.from || '',
+    to: trip?.to || '',
+    departureTime: trip?.departureTime ? new Date(trip.departureTime).toISOString().slice(0, 16) : '',
+    arrivalTime: trip?.arrivalTime ? new Date(trip.arrivalTime).toISOString().slice(0, 16) : '',
+    price: trip?.price || '',
+    totalSeats: trip?.seats || 50
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -181,10 +195,14 @@ const AddTripModal = ({ onClose, onSuccess }) => {
     setError('');
 
     try {
-      await api.createAdminTrip(formData);
+      if (trip) {
+        await api.updateAdminTrip(trip._id, formData);
+      } else {
+        await api.createAdminTrip(formData);
+      }
       onSuccess();
     } catch (err) {
-      setError(err.message || 'Failed to create trip');
+      setError(err.message || 'Failed to save trip');
     } finally {
       setLoading(false);
     }
@@ -193,64 +211,94 @@ const AddTripModal = ({ onClose, onSuccess }) => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <h2>Add New Trip</h2>
+        <h2>{trip ? 'Edit Trip' : 'Add New Trip'}</h2>
         <button className="close-btn" onClick={onClose}>✕</button>
 
         <form onSubmit={handleSubmit}>
           {error && <div className="error">{error}</div>}
 
-          <input
-            type="text"
-            placeholder="Bus Number"
-            value={formData.busNumber}
-            onChange={(e) => setFormData({...formData, busNumber: e.target.value})}
-            required
-          />
-          <input
-            type="text"
-            placeholder="From"
-            value={formData.from}
-            onChange={(e) => setFormData({...formData, from: e.target.value})}
-            required
-          />
-          <input
-            type="text"
-            placeholder="To"
-            value={formData.to}
-            onChange={(e) => setFormData({...formData, to: e.target.value})}
-            required
-          />
-          <input
-            type="datetime-local"
-            value={formData.departureTime}
-            onChange={(e) => setFormData({...formData, departureTime: e.target.value})}
-            required
-          />
-          <input
-            type="datetime-local"
-            value={formData.arrivalTime}
-            onChange={(e) => setFormData({...formData, arrivalTime: e.target.value})}
-            required
-          />
-          <input
-            type="number"
-            placeholder="Price (₹)"
-            value={formData.price}
-            onChange={(e) => setFormData({...formData, price: e.target.value})}
-            required
-          />
-          <input
-            type="number"
-            placeholder="Total Seats"
-            value={formData.totalSeats}
-            onChange={(e) => setFormData({...formData, totalSeats: e.target.value})}
-            required
-          />
+          <div className="form-group">
+            <label>Bus Number</label>
+            <input
+                type="text"
+                placeholder="Bus Number"
+                value={formData.busNumber}
+                onChange={(e) => setFormData({...formData, busNumber: e.target.value})}
+                required
+            />
+          </div>
+          
+          <div className="form-row">
+            <div className="form-group">
+                <label>From</label>
+                <input
+                    type="text"
+                    placeholder="From City"
+                    value={formData.from}
+                    onChange={(e) => setFormData({...formData, from: e.target.value})}
+                    required
+                />
+            </div>
+            <div className="form-group">
+                <label>To</label>
+                <input
+                    type="text"
+                    placeholder="To City"
+                    value={formData.to}
+                    onChange={(e) => setFormData({...formData, to: e.target.value})}
+                    required
+                />
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+                <label>Departure Time</label>
+                <input
+                    type="datetime-local"
+                    value={formData.departureTime}
+                    onChange={(e) => setFormData({...formData, departureTime: e.target.value})}
+                    required
+                />
+            </div>
+            <div className="form-group">
+                <label>Arrival Time</label>
+                <input
+                    type="datetime-local"
+                    value={formData.arrivalTime}
+                    onChange={(e) => setFormData({...formData, arrivalTime: e.target.value})}
+                    required
+                />
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+                <label>Price (₹)</label>
+                <input
+                    type="number"
+                    placeholder="Trip Price"
+                    value={formData.price}
+                    onChange={(e) => setFormData({...formData, price: e.target.value})}
+                    required
+                />
+            </div>
+            <div className="form-group">
+                <label>Total Seats</label>
+                <input
+                    type="number"
+                    placeholder="Capacity"
+                    value={formData.totalSeats}
+                    onChange={(e) => setFormData({...formData, totalSeats: e.target.value})}
+                    required
+                />
+            </div>
+          </div>
 
           <div className="modal-actions">
             <button type="button" onClick={onClose} className="cancel-btn">Cancel</button>
-            <button type="submit" disabled={loading} className="submit-btn">
-              {loading ? 'Creating...' : 'Create Trip'}
+            <button type="submit" disabled={loading} className="submit-btn" style={{ background: '#3498db' }}>
+              {loading ? 'Saving...' : (trip ? 'Update Trip' : 'Create Trip')}
             </button>
           </div>
         </form>
@@ -260,3 +308,4 @@ const AddTripModal = ({ onClose, onSuccess }) => {
 };
 
 export default AdminTrips;
+

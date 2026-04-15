@@ -11,6 +11,7 @@ export async function initDb() {
     });
     console.log('✓ Connected to MongoDB');
     await seedTripsIfEmpty();
+    await seedBusesIfEmpty();
     await seedAdminIfNotExists();
   } catch (error) {
     console.error('MongoDB connection error:', error.message);
@@ -59,6 +60,18 @@ const tripSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 export const Trip = mongoose.model('Trip', tripSchema);
+
+// Bus Schema
+const busSchema = new mongoose.Schema({
+  busNumber: { type: String, required: true, unique: true },
+  operator: { type: String, required: true },
+  type: { type: String, required: true },
+  capacity: { type: Number, required: true },
+  amenities: [String],
+  isActive: { type: Boolean, default: true },
+}, { timestamps: true });
+
+export const Bus = mongoose.model('Bus', busSchema);
 
 // Booking Schema
 const bookingSchema = new mongoose.Schema({
@@ -251,6 +264,45 @@ async function seedTripsIfEmpty() {
     ];
     await Trip.insertMany(sampleTrips);
     console.log('✓ Sample trips seeded');
+  }
+}
+
+// Seed sample buses
+async function seedBusesIfEmpty() {
+  const count = await Bus.countDocuments();
+  if (count === 0) {
+    const sampleBuses = [
+      {
+        busNumber: 'MH 01 AB 1234',
+        operator: 'Zingbus AC Sleeper',
+        type: 'AC Sleeper (2+1)',
+        capacity: 40,
+        amenities: ['WiFi', 'Blanket', 'Water Bottle']
+      },
+      {
+        busNumber: 'MH 14 CD 5678',
+        operator: 'IntrCity SmartBus',
+        type: 'AC Semi-Sleeper',
+        capacity: 40,
+        amenities: ['Charging Point', 'Reading Light']
+      },
+      {
+        busNumber: 'KA 25 EF 9012',
+        operator: 'VRL Travels',
+        type: 'Non-AC Sleeper',
+        capacity: 40,
+        amenities: ['Pillow', 'Emergency Contact']
+      },
+      {
+        busNumber: 'TS 09 GH 3456',
+        operator: 'Orange Tours',
+        type: 'Volvo Multi-Axle AC',
+        capacity: 40,
+        amenities: ['AC', 'Snacks', 'TV', 'WiFi']
+      }
+    ];
+    await Bus.insertMany(sampleBuses);
+    console.log('✓ Sample buses seeded');
   }
 }
 

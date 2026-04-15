@@ -79,6 +79,9 @@ const AdminDashboard = () => {
         <Link to="/admin/trips" className="nav-item">
           Trips
         </Link>
+        <Link to="/admin/buses" className="nav-item">
+          Buses
+        </Link>
         <Link to="/admin/bookings" className="nav-item">
           Bookings
         </Link>
@@ -112,6 +115,12 @@ const AdminDashboard = () => {
           title="Total Trips"
           value={dashboardData?.stats.totalTrips || 0}
           color="#27ae60"
+        />
+        <StatCard
+          icon={<Bus size={24} />}
+          title="Total Buses"
+          value={dashboardData?.stats.totalBuses || 0}
+          color="#8e44ad"
         />
         <StatCard
           icon={<BookOpen size={24} />}
