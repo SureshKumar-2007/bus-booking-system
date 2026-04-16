@@ -71,12 +71,12 @@ const Home = () => {
           
           <div className="routes-grid">
             {[
-              { id: '1', from: 'Mumbai', to: 'Pune', price: '₹450', img: '/images/mumbai.png' },
-              { id: '2', from: 'Delhi', to: 'Jaipur', price: '₹600', img: '/images/jaipur.png' },
-              { id: '3', from: 'Bangalore', to: 'Chennai', price: '₹850', img: '/images/chennai.png' },
-              { id: '4', from: 'Hyderabad', to: 'Vijayawada', price: '₹500', img: '/images/hyderabad.png' }
+              { from: 'Mumbai', to: 'Pune', price: '₹450', img: '/images/mumbai.png' },
+              { from: 'Delhi', to: 'Jaipur', price: '₹600', img: '/images/jaipur.png' },
+              { from: 'Bangalore', to: 'Chennai', price: '₹850', img: '/images/chennai.png' },
+              { from: 'Hyderabad', to: 'Vijayawada', price: '₹500', img: '/images/hyderabad.png' }
             ].map((route, i) => (
-              <div className="route-card" key={i} onClick={() => navigate(`/trip/${route.id}`)} style={{ cursor: 'pointer' }}>
+              <div className="route-card" key={i} onClick={() => navigate(`/search?from=${route.from}&to=${route.to}&date=Today`)} style={{ cursor: 'pointer' }}>
                 <div className="route-img" style={{ backgroundImage: `url(${route.img})` }}></div>
                 <div className="route-info">
                   <div className="route-locations">
