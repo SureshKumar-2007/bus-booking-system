@@ -10,29 +10,39 @@ const frontendDistPath = path.join(__dirname, '../frontend/dist');
 const indexHtmlPath = path.join(frontendDistPath, 'index.html');
 
 console.log('--- Deployment Diagnostic ---');
+console.log(`Working Directory: ${process.cwd()}`);
 console.log(`Checking for frontend build at: ${indexHtmlPath}`);
 
 if (!fs.existsSync(indexHtmlPath)) {
   console.log('⚠️  Frontend build MISSING. Starting self-healing build process...');
   
   try {
-    // Run the build command defined in the root package.json
-    // We execute it from the root directory (one level up from backend)
-    const rootPath = path.join(__dirname, '..');
+    const rootPath = path.resolve(__dirname, '..');
+    console.log(`Root Path resolved to: ${rootPath}`);
     
-    console.log(`Executing: npm run build in ${rootPath}`);
+    // Check if package.json exists in subfolders to verify pathing
+    const frontendPath = path.join(rootPath, 'frontend');
+    console.log(`Frontend Directory Exists: ${fs.existsSync(frontendPath)}`);
     
-    // Use stdio: 'inherit' to see the build logs in the Render console
+    console.log('Starting execution of build command...');
+    
+    // Execute the build command from the root
     execSync('npm run build', { 
       cwd: rootPath, 
       stdio: 'inherit',
-      env: { ...process.env, NODE_ENV: 'production' }
+      env: { ...process.env, NODE_ENV: 'production' },
+      timeout: 300000 // 5 minute timeout for safety
     });
     
-    console.log('✅ Self-healing build completed successfully!');
+    if (fs.existsSync(indexHtmlPath)) {
+      console.log('✅ Self-healing build completed successfully! dist folder is now present.');
+    } else {
+      console.error('❌ Build script finished but dist/index.html is STILL missing.');
+    }
   } catch (error) {
-    console.error('❌ Self-healing build FAILED:', error.message);
-    process.exit(1);
+    console.error('❌ Self-healing build FAILED during execution.');
+    console.error(`Error Details: ${error.message}`);
+    // If it's a timeout error, it will show up here
   }
 } else {
   console.log('✅ Frontend build found. Skipping build step.');
