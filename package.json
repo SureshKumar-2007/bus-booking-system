@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "postinstall": "npm run build",
     "build": "cd backend && npm install && cd ../frontend && npm install --include=dev && npm run build && cd ..",
-    "start": "node backend/check-build.js && node backend/server.js",
+    "start": "node backend/server.js",
     "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\""
   },
   "dependencies": {
