@@ -79,6 +79,19 @@ const indexHtmlPath = path.join(frontendDistPath, 'index.html');
 console.log(`[Diagnostic] Frontend Dist Path: ${frontendDistPath}`);
 console.log(`[Diagnostic] Dist Directory Exists: ${fs.existsSync(frontendDistPath)}`);
 
+if (!fs.existsSync(frontendDistPath) && !process.env.VERCEL) {
+  console.log('Frontend dist directory not found. Attempting to build frontend...');
+  try {
+    const { execSync } = await import('child_process');
+    const frontendPath = path.join(__dirname, '../frontend');
+    console.log(`Navigating to ${frontendPath} and running build...`);
+    execSync('npm install --include=dev && npm run build', { cwd: frontendPath, stdio: 'inherit' });
+    console.log('Frontend build successful.');
+  } catch (error) {
+    console.error('Failed to build frontend:', error.message);
+  }
+}
+
 if (fs.existsSync(frontendDistPath)) {
   app.use(express.static(frontendDistPath));
 } else {
