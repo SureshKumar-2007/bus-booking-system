@@ -19,7 +19,7 @@ const adminAuthMiddleware = async (req, res, next) => {
   let payload;
   try {
     payload = jwt.verify(token, JWT_SECRET);
-  } catch (err) {
+  } catch {
     // This catches malformed tokens, expired tokens, etc.
     return res.status(401).json({ error: 'Invalid or expired token.' });
   }
@@ -270,6 +270,16 @@ router.post('/trips', adminAuthMiddleware, async (req, res) => {
       currency: 'INR'
     });
 
+    await logActivity(
+      req.user.id,
+      req.user.email,
+      'CREATE_TRIP',
+      'Trip',
+      newTrip._id,
+      newTrip,
+      `New trip created: ${busNumber} (${from} → ${to})`
+    );
+
     return res.status(201).json({ trip: newTrip });
   } catch (error) {
     console.error('Trip creation error:', error);
@@ -335,6 +345,16 @@ router.delete('/trips/:id', adminAuthMiddleware, async (req, res) => {
     if (!trip) {
       return res.status(404).json({ error: 'Trip not found' });
     }
+
+    await logActivity(
+      req.user.id,
+      req.user.email,
+      'DELETE_TRIP',
+      'Trip',
+      trip._id,
+      null,
+      `Trip deleted: ${trip.busNumber} (${trip.from} → ${trip.to})`
+    );
 
     return res.json({ message: 'Trip deleted successfully' });
   } catch (error) {
@@ -434,6 +454,16 @@ router.put('/bookings/:id/status', adminAuthMiddleware, async (req, res) => {
       return res.status(404).json({ error: 'Booking not found' });
     }
 
+    await logActivity(
+      req.user.id,
+      req.user.email,
+      'UPDATE_BOOKING_STATUS',
+      'Booking',
+      booking._id,
+      { status },
+      `Booking status updated to ${status} for ${booking.userId?.email}`
+    );
+
     return res.json({ booking });
   } catch (error) {
     console.error('Booking status update error:', error);
@@ -455,6 +485,16 @@ router.delete('/bookings/:id', adminAuthMiddleware, async (req, res) => {
     if (!booking) {
       return res.status(404).json({ error: 'Booking not found' });
     }
+
+    await logActivity(
+      req.user.id,
+      req.user.email,
+      'DELETE_BOOKING',
+      'Booking',
+      booking._id,
+      null,
+      `Booking deleted: ${bookingId}`
+    );
 
     return res.json({ message: 'Booking deleted successfully' });
   } catch (error) {
@@ -822,9 +862,10 @@ router.post('/announcements', adminAuthMiddleware, async (req, res) => {
     const announcement = await Announcement.create({
       title,
       message,
-      type,
+      type: type || 'info',
       expiresAt: expiresAt ? new Date(expiresAt) : null,
-      createdBy: req.user.id
+      createdBy: req.user.id,
+      isActive: true
     });
 
     await logActivity(
@@ -833,7 +874,7 @@ router.post('/announcements', adminAuthMiddleware, async (req, res) => {
       'CREATE_ANNOUNCEMENT',
       'Announcement',
       announcement._id,
-      { title, type },
+      { title, message, type: type || 'info' },
       `New announcement posted: ${title}`
     );
 
@@ -991,34 +1032,7 @@ router.delete('/buses/:id', adminAuthMiddleware, async (req, res) => {
   }
 });
 
-export default router;
-    }
 
-    const announcement = await Announcement.create({
-      title,
-      message,
-      type: type || 'info',
-      createdBy: req.user.id,
-      expiresAt: expiresAt ? new Date(expiresAt) : null,
-      isActive: true
-    });
-
-    await logActivity(
-      req.user.id,
-      req.user.email,
-      'CREATE_ANNOUNCEMENT',
-      'Announcement',
-      announcement._id,
-      { title, message, type },
-      `Announcement created: ${title}`
-    );
-
-    return res.status(201).json({ announcement });
-  } catch (error) {
-    console.error('Announcement creation error:', error);
-    return res.status(500).json({ error: 'Failed to create announcement' });
-  }
-});
 
 // Get all active announcements
 router.get('/announcements', adminAuthMiddleware, async (req, res) => {
