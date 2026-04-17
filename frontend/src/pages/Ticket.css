@@ -223,3 +223,52 @@
     flex-wrap: wrap;
   }
 }
+
+/* Print Styles */
+@media print {
+  body {
+    background: white;
+  }
+  
+  .no-print, 
+  nav, 
+  footer {
+    display: none !important;
+  }
+  
+  .ticket-page {
+    padding: 0;
+    background: white;
+  }
+  
+  .container {
+    padding: 0;
+    max-width: 100%;
+  }
+  
+  .ticket-card {
+    box-shadow: none;
+    border: 1px solid #eee;
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .ticket-header {
+    background: #2563eb !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .dot {
+    border-color: #2563eb !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .timeline-line {
+    background: #2563eb !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

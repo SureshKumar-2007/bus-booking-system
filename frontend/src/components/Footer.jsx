@@ -47,7 +47,7 @@ const Footer = () => {
             <Mail size={16} /> support@gobus.com
           </p>
           <p className="contact-item">
-            1-800-123-4567
+            9856753602
           </p>
         </div>
       </div>

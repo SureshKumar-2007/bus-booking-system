@@ -40,6 +40,7 @@ apiRouter.get('/health', (_req, res) => {
     status: 'ok', 
     timestamp: new Date().toISOString(), 
     env: process.env.VERCEL ? 'vercel' : 'local',
+    mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
     node_version: process.version
   });
 });

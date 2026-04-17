@@ -5,17 +5,20 @@ const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/awt-bus-bo
 
 export async function initDb() {
   try {
+    console.log('Connecting to MongoDB...');
     await mongoose.connect(MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
     console.log('✓ Connected to MongoDB');
-    await seedTripsIfEmpty();
-    await seedBusesIfEmpty();
-    await seedAdminIfNotExists();
+    
+    // Seed data in background to not block startup too much
+    seedTripsIfEmpty().catch(err => console.error('Seed Trips Error:', err.message));
+    seedBusesIfEmpty().catch(err => console.error('Seed Buses Error:', err.message));
+    seedAdminIfNotExists().catch(err => console.error('Seed Admin Error:', err.message));
   } catch (error) {
-    console.error('MongoDB connection error:', error.message);
-    process.exit(1);
+    console.error('CRITICAL: MongoDB connection error:', error.message);
+    console.error('The application will continue but database features will be unavailable.');
   }
 }
 
