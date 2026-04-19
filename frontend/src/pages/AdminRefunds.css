@@ -73,3 +73,26 @@ td {
 
 td:first-child { border-radius: var(--radius-md) 0 0 var(--radius-md); }
 td:last-child { border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .refunds-container, .reports-container, .users-container, .activity-logs-container {
+    padding: 15px;
+  }
+
+  .header-panel {
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .data-card {
+    padding: 15px;
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 800px;
+  }
+}
